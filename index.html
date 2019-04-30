@@ -48,8 +48,8 @@
     var welcome = {
       type: 'instructions',
       pages: ['Welcome to the experiment. Click next to begin.',
-        'You are going to participate in a study on brands and their logo\'s',
-        'Before we start the experiment, we will ask you several questions about how you feel about the brands in this study'],
+        'You are going to participate in a study on hotels\'s',
+        'Before we start the experiment, we will ask you to answer several demographic questions'],
       show_clickable_nav: true,
       show_page_number: false
     }
@@ -59,30 +59,13 @@
     // defining response scales that can be used.
     var scale_1 = ["Strongly Disagree","","Disagree","","Neutral","","Agree","","Strongly Agree"];
 
-    var likert_scale_rabo = {
+    var likert_bookings = {
       type: 'survey-likert',
-      questions: [{prompt: "If Rabobank were not available, it would make little difference to me if I had to choose another brand", labels: scale_1},
-      {prompt: " I consider myself to be highly loyal to Rabobank", labels: scale_1},
-      {prompt: " When another brand is cheaper, I will generally use it rather than Rabobank", labels: scale_1}],
+      questions: [{prompt: "I use websites like Bookings.com often", labels: scale_1}],
       };
-
-    var likert_scale_unilever = {
-      type: 'survey-likert',
-      questions: [{prompt: "If Unilever were not available, it would make little difference to me if I had to choose another brand", labels: scale_1},
-      {prompt: " I consider myself to be highly loyal to Unilever", labels: scale_1},
-      {prompt: " When another brand is cheaper, I will generally use it rather than Unilever", labels: scale_1}],
-      };
-
-    var likert_scale_starbucks = {
-      type: 'survey-likert',
-      questions: [{prompt: "If Starbucks were not available, it would make little difference to me if I had to choose another brand", labels: scale_1},
-      {prompt: " I consider myself to be highly loyal to Starbucks", labels: scale_1},
-      {prompt: " When another brand is cheaper, I will generally use it rather than Starbucks", labels: scale_1}],
-      };
-      // Insert more brands here
 
     var likert_procedure = {
-      timeline: [likert_scale_rabo,likert_scale_unilever,likert_scale_starbucks],
+      timeline: [likert_bookings],
       randomize_order: false,
       // repetitions: 3
     }
@@ -94,11 +77,11 @@
     var instructions = {
       type: "html-keyboard-response",
       stimulus: "<p>In this experiment, you will first see a fixation cross " +
-          "of the screen.</p><p>Then, shortly, a <strong>logo</strong> " +
-          "is shown followed by a <strong> word </strong>.</p>" +
-          "<p>Answer whether you feel the word matches the logo " +
-          "as fast as you can.</p>" +
-          "<p> Press the <strong> F-key for yes </strong> and the <strong> J-key for no </strong> </p>" +
+          "on the screen.</p><p>Then, shortly, you will see a <strong>picture</strong>. " +
+          "After the picture disappears a <strong> price </strong> will be shown. </p>" +
+          "<p>Answer whether you feel this price is either <strong> cheap </strong> or <strong> expensive </strong> for the picture you just saw. " +
+          "Please answer within 1.5 seconds.</p>" +
+          "<p> Press the <strong> F-key for cheap </strong> and the <strong> J-key for expensive </strong> </p>" +
           "<div style='width: 700px;'>"+
           /*"<div style='float: left;'><img src='img/blue.png'></img>" +
           "<p class='small'><strong>Press the F key</strong></p></div>" +
@@ -110,29 +93,11 @@
     };
     timeline.push(instructions);
 
-// input cut part here
-
-/*var factors = {
-  logos: [
-    {stimulus: "img/rabo1.png", data: {test_part: 'test'}},
-    {stimulus: "img/rabo2.png", data: {test_part: 'test'}},
-    {stimulus: "img/rabo3.png", data: {test_part: 'test'}},
-  ]
-  words: [
-    {stimulus: "img/happy.png", data: {test_part: 'word'}},
-    {stimulus: "img/angry.png", data: {test_part: 'word'}},
-    {stimulus: "img/sad.png", data: {test_part: 'word'}},
-  ]
-}*/
-
     var factors = {
-      logos: ['img/rabo1.png', 'img/rabo2.png','img/rabo3.png',
-              'img/unilever1.png', 'img/unilever2.png','img/unilever3.png',
-              'img/starbucks1.png', 'img/starbucks2.png','img/starbucks3.png'],
-      //      logos: [{'img/rabo1.png', data: {test_part: 'test'}}, {'img/rabo2.png'data: {test_part: 'test'}},{'img/rabo3.png'data: {test_part: 'test'}}],
-      // words: ['<div style="font-size:60px;">sad</div>', '<div style="font-size:60px;">happy</div>','<div style="font-size:60px;">angry</div>']
-      words: ['img/good.png','img/bad.png','img/beneficial.png','img/harmful.png',
-              'img/desirable.png','img/undesirable.png','img/nice.png','img/awful.png']
+      logos: ['img/bar/bar_1.jpg', 'img/bar/bar_2.jpg','img/bar/bar_3.jpg','img/bar/bar_4.jpg','img/bar/bar_5.jpg',
+              'img/bathroom/bathroom_1.jpg','img/bathroom/bathroom_2.jpg','img/bathroom/bathroom_3.jpg','img/bathroom/bathroom_4.jpg','img/bathroom/bathroom_5.jpg',
+              'img/lobby/lobby_1.jpg','img/lobby/lobby_2.jpg','img/lobby/lobby_3.jpg','img/lobby/lobby_4.jpg','img/lobby/lobby_5.jpg',],
+      words: ['<div class = centerbox><div class = center-text>$100</div></div>','<div class = centerbox><div class = center-text>$200</div></div>']
     }
 
     var full_design = jsPsych.randomization.factorial(factors, 1);
@@ -161,6 +126,15 @@
     }
 // show target word
     var word = {
+      type: 'html-keyboard-response',
+      stimulus: jsPsych.timelineVariable('words'),
+      choices: ['f','j'],
+      prompt: "<br><br><br><br><br><br><br><br><br><pre>Cheap (F)                                        (J) Expensive</pre>",
+      data: jsPsych.timelineVariable('data'),
+      trial_duration: 1500,
+    }
+/*
+    var word = {
       // type: 'image-keyboard-response',
       type: "categorize-image",
       data: { screen_type: 'targetWord'},
@@ -174,7 +148,7 @@
       feedback_duration: 800, // duration of white before next trial starts
       timeout_message: '<div class = centerbox><div class = center-text>Respond Faster!</div></div>',
     }
-
+*/
     var test_procedure = {
       timeline: [fixation, test, word],
       timeline_variables: full_design,
